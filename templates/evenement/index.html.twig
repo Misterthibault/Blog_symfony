@@ -12,6 +12,9 @@
 <h1>voici la liste des événements</h1>
 
 <a href="{{ path('evenement_add') }}">Ajouter un événement</a>
+<br>
+<p>liste des lieux: {{ evenement.lieu | default('N/A') }}   </p>
+
 
     {% for evenement in evenements %}
     <h2>{{ evenement.nom }}</h2>

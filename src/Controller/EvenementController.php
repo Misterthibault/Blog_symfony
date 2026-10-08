@@ -60,4 +60,39 @@ final class EvenementController extends AbstractController
             'form' => $form,
         ]);
     }
+
+    #[Route('/editEvenement/{id}', name: 'app_evenement_edit')]
+    #[IsGranted('IS_AUTHENTICATED_FULLY')]
+    public function edit(Evenement $evenement, Request $request, EntityManagerInterface $entityManager): Response
+    {
+        $form = $this->createForm(EvenementType::class, $evenement);
+
+        // Vérifie si le formulaire est envoyé ou non
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            // récupère les données du formulaire
+            $evenement = $form->getData();
+
+            $entityManager->persist($evenement); // on ajoute l'article dans l'entity manager pour qu'il puisse s'en occuper au moment du flush
+            $entityManager->flush(); // on execute les req en BDD
+            return $this->redirectToRoute('app_evenement');
+        }
+
+        return $this->render('evenement/add.html.twig', [
+            'nom' => "Modifier l'evenement",
+            'form' => $form,
+        ]);
+    }
+
+    #[Route('/deleteEvenement/{id}', name: 'app_evenement_delete')]
+    #[IsGranted('IS_AUTHENTICATED_FULLY')]
+    public function delete(Evenement $evenement,  EntityManagerInterface $entityManager): Response
+    {
+        $entityManager->remove($evenement);
+        $entityManager->flush();
+        return $this->redirectToRoute('app_evenement');
+    }
+
+
+
 }
