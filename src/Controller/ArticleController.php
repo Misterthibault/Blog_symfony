@@ -26,16 +26,6 @@ final class ArticleController extends AbstractController
         ]);
     }
 
-    #[Route('/commentaire', name: 'app_commentaire')]         // route portant un nom, permet de l'appeler depuis n'importe où dans l'application plus facilement
-    public function afficherComment(CommentaireRepository $commentaireRepository): Response
-    {
-        $commentaire = $commentaireRepository->findAll();
-        return $this->render('commentaire/index.html.twig', [
-            // 'controller_name' => 'thibz',
-            'commentaire' => $commentaire,
-        ]);
-    }
-
     #[Route('/article_show/{id}', name: 'article_show')]         // route portant un nom, permet de l'appeler depuis n'importe où dans l'application plus facilement
     public function show(article $article): Response
     {
@@ -44,6 +34,17 @@ final class ArticleController extends AbstractController
             'article' => $article,
         ]);
     }
+
+    // #[Route('/commentaire', name: 'app_commentaire')]         // route portant un nom, permet de l'appeler depuis n'importe où dans l'application plus facilement
+    // public function afficherComment(CommentaireRepository $commentaireRepository): Response
+    // {
+    //     $commentaire = $commentaireRepository->findAll();
+    //     return $this->render('commentaire/index.html.twig', [
+    //         // 'controller_name' => 'thibz',
+    //         'commentaire' => $commentaire,
+    //     ]);
+    // }
+
 
     #[Route('/article2', name: 'app_article2')]     // route portant un nom, permet de l'appeler depuis n'importe où dans l'application plus facilement
     public function random(): Response
@@ -77,28 +78,34 @@ final class ArticleController extends AbstractController
         ]);
     }
 
-    #[Route('/addCommentaire', name: 'app_commentaire_add')]
-    #[IsGranted('IS_AUTHENTICATED_FULLY')]
-    public function addCommentaire(Request $request, EntityManagerInterface $entityManager): Response
-    {
-        $commentaire = new commentaire();
+    // #[Route('/addCommentaire', name: 'app_commentaire_add')]
+    // #[IsGranted('IS_AUTHENTICATED_FULLY')]
+    // public function addCommentaire(Request $request, EntityManagerInterface $entityManager): Response
+    // {
+    //     $commentaire = new commentaire();
 
-        $form = $this->createForm(commentaireType::class, $commentaire);
+    //     $form = $this->createForm(commentaireType::class, $commentaire);
 
-        // Vérifie si le formulaire est envoyé ou non
-        $form->handleRequest($request);
-        if ($form->isSubmitted() && $form->isValid()) {
-            // récupère les données du formulaire
-            $commentaire->setAuteur($this->getUser());
-            $entityManager->persist($commentaire); // on ajoute le commentaire dans l'entity manager pour qu'il puisse s'en occuper au moment du flush
-            $entityManager->flush(); // on execute les req en BDD
-            return $this->redirectToRoute('app_article');
-        }
+    //     // Vérifie si le formulaire est envoyé ou non
+    //     $form->handleRequest($request);
+    //     if ($form->isSubmitted() && $form->isValid()) {
+    //         // récupère les données du formulaire
+    //         $commentaire->setAuteur($this->getUser());
+    //         $entityManager->persist($commentaire); // on ajoute le commentaire dans l'entity manager pour qu'il puisse s'en occuper au moment du flush
+    //         $entityManager->flush(); // on execute les req en BDD
+    //         return $this->redirectToRoute('app_article');
+    //     }
 
-        return $this->render('article/add.html.twig', [
-            'form' => $form,
-        ]);
-    }
+    //     return $this->render('article/add.html.twig', [
+    //         'form' => $form,
+    //     ]);
+    // }
 
-    
+    // #[Route('/redirection_evenement', name: 'redirection_evenement')]
+    // public function evenement(): Response
+    // {
+    //     return $this->render('evenement/index.html.twig', [   
+    //     ]);
+    // }
+
 }

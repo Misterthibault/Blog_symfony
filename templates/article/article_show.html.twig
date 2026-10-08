@@ -17,7 +17,7 @@
     <p> Ecrit par {{ article.auteur.nom }} , le {{ article.date | date('d/m/Y') }}</p>
     <p> Ecrit par {{ article.auteur }}</p>  
 
-    <p>{{ commentaire.texte }}</p>
+    {# <p>{{ commentaire.texte }}</p> #}
     <br>
     <a href="{{ path('app_article') }}"> Retourner a l'ecran d'accueil<a/>
     <hr>
